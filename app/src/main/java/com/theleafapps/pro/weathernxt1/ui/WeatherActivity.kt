@@ -27,6 +27,8 @@ class WeatherActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // get saved weather data from db otherwise
+        // for first app launch, default city is selected
         viewModel.getWeatherDB(wId).observe(this) { weatherData ->
             weatherData?.let {
                 populateViews(weatherData)
@@ -36,6 +38,7 @@ class WeatherActivity : AppCompatActivity() {
             }
         }
 
+        // get weather data for the city entered in city edittext
         binding.getCityWeatherDataBtn.setOnClickListener {
             val city = binding.etCity.text.toString()
             if (city.isNotEmpty()) {
@@ -52,6 +55,8 @@ class WeatherActivity : AppCompatActivity() {
         }
     }
 
+    // populate the extracted data from db or from api
+    // to the views on weather page
     private fun populateViews(weatherData: WeatherInfo) {
         binding.apply {
             binding.tvCityName.text = weatherData.city_name.toString()
@@ -74,6 +79,7 @@ class WeatherActivity : AppCompatActivity() {
         }
     }
 
+    // hide keyboard on search button click
     private fun hideKeyboard() {
         val imm: InputMethodManager =
             getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager

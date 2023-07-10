@@ -32,12 +32,14 @@ class WeatherViewModel @Inject constructor(
         return errorMsg
     }
 
+    // get weather of the city from API and save to db
     fun getWeather() = viewModelScope.launch {
         dynamicArgumentLiveData.value?.let {
             val response = repository.getWeather(it, api_key, units)
 
             if (response.isSuccessful) {
                 response.body()?.let { weatherResponse ->
+                    // TransformUtil saves the API Response to simplified form
                     val weatherInfo =
                         TransformUtil.extractWeatherInfoFromResponse(weatherResponse)
                     weatherInfo?.let {
@@ -56,6 +58,7 @@ class WeatherViewModel @Inject constructor(
         }
     }
 
+    // get weather of the city last saved from the room database
     fun getWeatherDB(wId: Int): LiveData<WeatherInfo> {
         return repository.getWeatherInfoFromDB(wId)
     }

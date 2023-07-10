@@ -4,6 +4,7 @@ import com.theleafapps.pro.weathernxt1.models.WeatherData
 import com.theleafapps.pro.weathernxt1.models.WeatherInfo
 
 object TransformUtil {
+    // method transforms the weather data api response to simplified WeatherInfo Object
     public fun extractWeatherInfoFromResponse(weatherData: WeatherData): WeatherInfo? {
         val weatherInfo = WeatherInfo(
             id = 1,

@@ -1,4 +1,7 @@
 package com.theleafapps.pro.weathernxt1
 
-class WeatherNXT1Application {
-}
+import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
+
+@HiltAndroidApp
+class WeatherNXTApplication : Application()

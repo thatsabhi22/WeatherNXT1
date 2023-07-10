@@ -1,9 +1,7 @@
 package com.theleafapps.pro.weathernxt1.db
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Update
+import androidx.lifecycle.LiveData
+import androidx.room.*
 import com.theleafapps.pro.weathernxt1.models.WeatherInfo
 
 @Dao
@@ -15,4 +13,6 @@ interface WeatherDataDAO {
     @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun updateWeatherInfo(weatherData: WeatherInfo?)
 
+    @Query("SELECT * FROM WeatherInfo where id=:wId")
+    fun getLastCityWeatherInfo(wId: Int): LiveData<WeatherInfo>
 }

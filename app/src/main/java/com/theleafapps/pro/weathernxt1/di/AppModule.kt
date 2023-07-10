@@ -26,4 +26,9 @@ class AppModule {
             .build()
             .create(WeatherApiService::class.java)
 
+    @Provides
+    @Singleton
+    fun provideWeatherDataDao(weatherDb: WeatherDB): WeatherDataDAO {
+        return weatherDb.weatherDataDAO()
+    }
 }

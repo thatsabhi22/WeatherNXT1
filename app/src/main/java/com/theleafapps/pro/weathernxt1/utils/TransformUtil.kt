@@ -1,11 +1,10 @@
 package com.theleafapps.pro.weathernxt1.utils
 
-import com.theleafapps.pro.weathernxt.models.WeatherData
-import com.theleafapps.pro.weathernxt.models.WeatherInfo
+import com.theleafapps.pro.weathernxt1.models.WeatherData
 import com.theleafapps.pro.weathernxt1.models.WeatherInfo
 
 object TransformUtil {
-    public fun extractWeatherInfoFromResponse(weatherData:WeatherData): WeatherInfo? {
+    public fun extractWeatherInfoFromResponse(weatherData: WeatherData): WeatherInfo? {
         val weatherInfo = WeatherInfo(
             id = 1,
             city_name = weatherData.name.toString(),

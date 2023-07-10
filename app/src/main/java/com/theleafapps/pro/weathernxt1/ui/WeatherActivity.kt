@@ -1,6 +1,7 @@
 package com.theleafapps.pro.weathernxt1.ui
 
 import android.os.Bundle
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -32,6 +33,21 @@ class WeatherActivity : AppCompatActivity() {
             } ?: run {
                 viewModel.setDynamicArgument(DEFAULT_CITY)
                 viewModel.getWeather()
+            }
+        }
+
+        binding.getCityWeatherDataBtn.setOnClickListener {
+            val city = binding.etCity.text.toString()
+            if (city.isNotEmpty()) {
+                binding.locationLoading.visibility = View.VISIBLE
+                viewModel.setDynamicArgument(city)
+                viewModel.getWeather()
+                binding.locationLoading.visibility = View.GONE
+                binding.errorMsg.visibility = View.VISIBLE
+                binding.errorMsg.text = viewModel.getErrorMsg()
+                hideKeyboard()
+            } else {
+                binding.etCity.error = "Enter Something"
             }
         }
     }

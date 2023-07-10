@@ -1,6 +1,8 @@
 package com.theleafapps.pro.weathernxt1.di
 
 import com.theleafapps.pro.weathernxt1.api.WeatherApiService
+import com.theleafapps.pro.weathernxt1.db.WeatherDB
+import com.theleafapps.pro.weathernxt1.db.WeatherDataDAO
 import com.theleafapps.pro.weathernxt1.utils.Constants
 import dagger.Module
 import dagger.Provides

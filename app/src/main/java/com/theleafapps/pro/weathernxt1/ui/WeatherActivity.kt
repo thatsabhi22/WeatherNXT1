@@ -1,11 +1,18 @@
 package com.theleafapps.pro.weathernxt1.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
-import com.theleafapps.pro.weathernxt1.R
+import androidx.appcompat.app.AppCompatActivity
 import com.theleafapps.pro.weathernxt1.databinding.ActivityMainBinding
+import com.theleafapps.pro.weathernxt1.models.WeatherInfo
+import com.theleafapps.pro.weathernxt1.utils.Constants.DEFAULT_CITY
+import com.theleafapps.pro.weathernxt1.utils.Constants.HUMIDITY_UNIT
+import com.theleafapps.pro.weathernxt1.utils.Constants.PRESSURE_UNIT
+import com.theleafapps.pro.weathernxt1.utils.Constants.VISIBILITY_UNIT
+import com.theleafapps.pro.weathernxt1.utils.Constants.WINDSPEED_UNIT
 import com.theleafapps.pro.weathernxt1.utils.Constants.wId
+import com.theleafapps.pro.weathernxt1.utils.Utility
 import com.theleafapps.pro.weathernxt1.viewmodels.WeatherViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,7 +28,39 @@ class WeatherActivity : AppCompatActivity() {
 
         viewModel.getWeatherDB(wId).observe(this) { weatherData ->
             weatherData?.let {
+                populateViews(weatherData)
+            } ?: run {
+                viewModel.setDynamicArgument(DEFAULT_CITY)
+                viewModel.getWeather()
             }
         }
+    }
+
+    private fun populateViews(weatherData: WeatherInfo) {
+        binding.apply {
+            binding.tvCityName.text = weatherData.city_name.toString()
+            binding.etCity.setText(weatherData.city_name.toString())
+            val temp = weatherData.temperature
+            binding.tvTemperature.text = temp?.indexOf(".")?.let { temp.substring(0, it) }
+            binding.tvPressure.text =
+                weatherData.pressure.toString().plus(PRESSURE_UNIT)
+            binding.tvWind.text = weatherData.windSpeed.toString().plus(WINDSPEED_UNIT)
+            binding.tvHumidity.text =
+                weatherData.humidity.toString().plus(HUMIDITY_UNIT)
+            binding.tvVisibility.text =
+                ((weatherData.visibility?.toFloat()!! / 1000).toString()).plus(
+                    VISIBILITY_UNIT
+                )
+            binding.tvSunrise.text = Utility.getTime(weatherData.sunrise.toString())
+            binding.tvSunset.text = Utility.getTime(weatherData.sunset.toString())
+            binding.weatherInfo.text = weatherData.detail.toString()
+
+        }
+    }
+
+    private fun hideKeyboard() {
+        val imm: InputMethodManager =
+            getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(currentFocus!!.windowToken, 0)
     }
 }

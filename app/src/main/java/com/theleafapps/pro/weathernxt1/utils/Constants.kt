@@ -6,4 +6,10 @@ object Constants {
     const val units = "metric"
     const val wId = 1
     const val DEFAULT_CITY = "Bangalore"
+
+    // Units
+    const val PRESSURE_UNIT = " hPA"
+    const val WINDSPEED_UNIT = " m/s"
+    const val HUMIDITY_UNIT = " %"
+    const val VISIBILITY_UNIT = " Km"
 }
